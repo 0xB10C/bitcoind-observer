@@ -8,3 +8,8 @@ edition = "2018"
 
 [dependencies]
 bcc = "0.0.31"
+prometheus = "0.12.0"
+lazy_static = "1.4.0"
+
+log = "0.4.14"
+simple_logger = "1.9.0"
