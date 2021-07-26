@@ -1,0 +1,222 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 3,
+    "links": [],
+    "panels": [
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 9,
+          "x": 0,
+          "y": 0
+        },
+        "id": 6,
+        "links": [],
+        "options": {
+          "content": "# Demo: bitcoind-observer \n\nAn experimental prometheus metric exporter for Bitcoin Core based on _Userspace, Statically Defined Tracing_ and [eBPF](https://ebpf.io).\n\nThis demo is based on **not-yet-merged** Bitcoin Core code added in PR [#22006 tracing: first tracepoints and documentation on User-Space, Statically Defined Tracing (USDT)](https://github.com/bitcoin/bitcoin/pull/22006).\n\nThe bitcoind-observer is written in Rust and open source. Code can be found on [github.com/0xb10c/bitcoind-observer](https://github.com/0xb10c/bitcoind-observer).",
+          "mode": "markdown"
+        },
+        "pluginVersion": "7.5.2",
+        "timeFrom": null,
+        "timeShift": null,
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 15,
+          "x": 9,
+          "y": 0
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "value"
+        },
+        "pluginVersion": "7.5.2",
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "bitcoindobserver_validation_block_connected_height_last",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "title": "Chain height",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "decbytes"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 15,
+          "x": 9,
+          "y": 6
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "7.5.2",
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(bitcoindobserver_p2p_message_inbound_bytes)",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "sum(bitcoindobserver_p2p_message_outbound_bytes)",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          },
+          {
+            "exemplar": true,
+            "expr": "sum(bitcoindobserver_p2p_message_inbound_bytes) + sum(bitcoindobserver_p2p_message_outbound_bytes)",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "in- and outbound",
+            "refId": "C"
+          }
+        ],
+        "title": "P2P network traffic",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 9,
+          "x": 0,
+          "y": 8
+        },
+        "id": 4,
+        "options": {
+          "folderId": null,
+          "maxItems": 100,
+          "query": "",
+          "showHeadings": false,
+          "showRecentlyViewed": false,
+          "showSearch": true,
+          "showStarred": false,
+          "tags": []
+        },
+        "pluginVersion": "7.5.2",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Dashboards",
+        "transparent": true,
+        "type": "dashlist"
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 27,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Home",
+    "uid": "IAeYpfWnz",
+    "version": 15
+  }
