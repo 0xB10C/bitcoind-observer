@@ -1,4 +1,3 @@
-#include <uapi/linux/ptrace.h>
 
 // Tor v3 addresses are 62 chars + 6 chars for the port (':12345').
 // I2P addresses are 60 chars + 6 chars for the port (':12345').

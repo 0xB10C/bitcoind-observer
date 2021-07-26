@@ -48,3 +48,34 @@ impl fmt::Display for P2PMessage {
         )
     }
 }
+
+/// Represents a connected block.
+#[repr(C)]
+pub struct BlockConnected
+{
+    pub height: i32,
+    pub transactions: u64,
+    pub inputs: i32,
+    pub sigops: u64,
+    pub connection_time: u64,
+}
+
+impl BlockConnected {
+    pub fn from_bytes(x: &[u8]) -> BlockConnected {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const BlockConnected) }
+    }
+}
+
+impl fmt::Display for BlockConnected {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "connected height={} tx={}, ins={}, sigops={} time={}µs",
+            self.height,
+            self.transactions,
+            self.inputs,
+            self.sigops,
+            self.connection_time,
+        )
+    }
+}

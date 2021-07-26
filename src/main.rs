@@ -8,7 +8,7 @@ mod metrics;
 mod metricserver;
 mod types;
 
-use types::P2PMessage;
+use types::{P2PMessage, BlockConnected};
 
 use simple_logger::SimpleLogger;
 
@@ -44,8 +44,16 @@ fn main() {
     usdt_ctx
         .enable_probe("net:outbound_message", "trace_outbound_message")
         .unwrap();
+    usdt_ctx
+        .enable_probe("validation:block_connected", "trace_block_connected")
+        .unwrap();
 
-    let code = include_str!("../ebpf-programs/p2p-in-and-outbound.c");
+    let code = concat!(
+        "#include <uapi/linux/ptrace.h>",
+        "\n\n",
+        include_str!("../ebpf-programs/p2p_in_and_outbound.c"),
+        include_str!("../ebpf-programs/validation_block_connected.c"),
+    );
     let bpf = BPFBuilder::new(code)
         .unwrap()
         .add_usdt_context(usdt_ctx)
@@ -55,6 +63,7 @@ fn main() {
 
     let table_inbound_messages = bpf.table("inbound_messages").unwrap();
     let table_outbound_messages = bpf.table("outbound_messages").unwrap();
+    let table_block_connected = bpf.table("perf_block_connected").unwrap();
 
     let mut perf_map_inbound_msg =
         PerfMapBuilder::new(table_inbound_messages, callback_inbound_message)
@@ -62,6 +71,10 @@ fn main() {
             .unwrap();
     let mut perf_map_outbound_msg =
         PerfMapBuilder::new(table_outbound_messages, callback_outbound_message)
+            .build()
+            .unwrap();
+    let mut perf_map_block_connected =
+        PerfMapBuilder::new(table_block_connected, callback_block_connected)
             .build()
             .unwrap();
 
@@ -72,6 +85,7 @@ fn main() {
     loop {
         perf_map_inbound_msg.poll(200);
         perf_map_outbound_msg.poll(200);
+        perf_map_block_connected.poll(20);
     }
 }
 
@@ -102,5 +116,17 @@ fn callback_outbound_message() -> Box<dyn FnMut(&[u8]) + Send> {
         metrics::P2P_MESSAGE_OUTBOUND_BYTE
             .with(&labels)
             .inc_by(outbound_msg.msg_size);
+    })
+}
+
+fn callback_block_connected() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|x| {
+        let block_connected = BlockConnected::from_bytes(x);
+        metrics::VALIDATION_BLOCK_CONNECTED_HEIGHT_LAST.set(block_connected.height as i64);
+        metrics::VALIDATION_BLOCK_CONNECTED_COUNT.inc();
+        metrics::VALIDATION_BLOCK_CONNECTED_TRANSACTION_COUNT.inc_by(block_connected.transactions);
+        metrics::VALIDATION_BLOCK_CONNECTED_INPUT_COUNT.inc_by(block_connected.inputs as u64);
+        metrics::VALIDATION_BLOCK_CONNECTED_SIGOP_COUNT.inc_by(block_connected.sigops);
+        metrics::VALIDATION_BLOCK_CONNECTED_TIMING.inc_by(block_connected.connection_time);
     })
 }
