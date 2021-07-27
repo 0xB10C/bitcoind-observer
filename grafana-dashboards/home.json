@@ -101,6 +101,142 @@
         "type": "stat"
       },
       {
+        "aliasColors": {
+          "inbound": "blue",
+          "outbound": "orange"
+        },
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "unit": "Bps"
+          },
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 8,
+          "w": 15,
+          "x": 9,
+          "y": 6
+        },
+        "hiddenSeries": false,
+        "id": 10,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 0,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "P2P Bandwidth (in and outbound)",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 9,
+          "x": 0,
+          "y": 8
+        },
+        "id": 4,
+        "options": {
+          "folderId": null,
+          "maxItems": 100,
+          "query": "",
+          "showHeadings": false,
+          "showRecentlyViewed": false,
+          "showSearch": true,
+          "showStarred": false,
+          "tags": []
+        },
+        "pluginVersion": "7.5.2",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Dashboards",
+        "transparent": true,
+        "type": "dashlist"
+      },
+      {
         "datasource": null,
         "fieldConfig": {
           "defaults": {
@@ -125,7 +261,7 @@
           "h": 11,
           "w": 15,
           "x": 9,
-          "y": 6
+          "y": 14
         },
         "id": 2,
         "options": {
@@ -171,36 +307,6 @@
         ],
         "title": "P2P network traffic",
         "type": "stat"
-      },
-      {
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 11,
-          "w": 9,
-          "x": 0,
-          "y": 8
-        },
-        "id": 4,
-        "options": {
-          "folderId": null,
-          "maxItems": 100,
-          "query": "",
-          "showHeadings": false,
-          "showRecentlyViewed": false,
-          "showSearch": true,
-          "showStarred": false,
-          "tags": []
-        },
-        "pluginVersion": "7.5.2",
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Dashboards",
-        "transparent": true,
-        "type": "dashlist"
       }
     ],
     "refresh": "30s",
@@ -211,12 +317,12 @@
       "list": []
     },
     "time": {
-      "from": "now-6h",
+      "from": "now-2d",
       "to": "now"
     },
     "timepicker": {},
     "timezone": "",
     "title": "Home",
     "uid": "IAeYpfWnz",
-    "version": 15
+    "version": 17
   }

@@ -12,14 +12,128 @@
         }
       ]
     },
-    "description": "In- and outbound per minute P2P message counts",
+    "description": "",
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
     "id": 1,
-    "iteration": 1627335340988,
+    "iteration": 1627375914260,
     "links": [],
     "panels": [
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "unit": "Bps"
+          },
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "hiddenSeries": false,
+        "id": 14,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeat": "msg_types",
+        "repeatDirection": "v",
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "addr",
+            "value": "addr"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
       {
         "aliasColors": {},
         "bars": false,
@@ -35,7 +149,7 @@
         "gridPos": {
           "h": 10,
           "w": 12,
-          "x": 0,
+          "x": 12,
           "y": 0
         },
         "hiddenSeries": false,
@@ -137,121 +251,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 0
-        },
-        "hiddenSeries": false,
-        "id": 14,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeat": "msg_types",
-        "repeatDirection": "v",
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "addr",
-            "value": "addr"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -285,7 +289,119 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "addrv2",
+            "value": "addrv2"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 10
+        },
+        "hiddenSeries": false,
+        "id": 32,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
@@ -362,122 +478,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 10
-        },
-        "hiddenSeries": false,
-        "id": 31,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "addrv2",
-            "value": "addrv2"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -511,13 +516,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "alert",
+            "value": "alert"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 20
+        },
+        "hiddenSeries": false,
+        "id": 33,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "block",
-            "value": "block"
+            "text": "alert",
+            "value": "alert"
           }
         },
         "seriesOverrides": [],
@@ -588,122 +705,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 20
-        },
-        "hiddenSeries": false,
-        "id": 32,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "block",
-            "value": "block"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -737,13 +743,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "block",
+            "value": "block"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 30
+        },
+        "hiddenSeries": false,
+        "id": 34,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "feefilter",
-            "value": "feefilter"
+            "text": "block",
+            "value": "block"
           }
         },
         "seriesOverrides": [],
@@ -814,122 +932,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 30
-        },
-        "hiddenSeries": false,
-        "id": 33,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "feefilter",
-            "value": "feefilter"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -963,13 +970,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "feefilter",
+            "value": "feefilter"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 40
+        },
+        "hiddenSeries": false,
+        "id": 35,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "getaddr",
-            "value": "getaddr"
+            "text": "feefilter",
+            "value": "feefilter"
           }
         },
         "seriesOverrides": [],
@@ -1040,122 +1159,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 40
-        },
-        "hiddenSeries": false,
-        "id": 34,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "getaddr",
-            "value": "getaddr"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -1189,13 +1197,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "getaddr",
+            "value": "getaddr"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 50
+        },
+        "hiddenSeries": false,
+        "id": 36,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "getdata",
-            "value": "getdata"
+            "text": "getaddr",
+            "value": "getaddr"
           }
         },
         "seriesOverrides": [],
@@ -1266,122 +1386,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 50
-        },
-        "hiddenSeries": false,
-        "id": 35,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "getdata",
-            "value": "getdata"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -1415,13 +1424,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "getdata",
+            "value": "getdata"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 60
+        },
+        "hiddenSeries": false,
+        "id": 37,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "getheaders",
-            "value": "getheaders"
+            "text": "getdata",
+            "value": "getdata"
           }
         },
         "seriesOverrides": [],
@@ -1492,122 +1613,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 60
-        },
-        "hiddenSeries": false,
-        "id": 36,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "getheaders",
-            "value": "getheaders"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -1641,13 +1651,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "getheaders",
+            "value": "getheaders"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 70
+        },
+        "hiddenSeries": false,
+        "id": 38,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "headers",
-            "value": "headers"
+            "text": "getheaders",
+            "value": "getheaders"
           }
         },
         "seriesOverrides": [],
@@ -1718,122 +1840,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 70
-        },
-        "hiddenSeries": false,
-        "id": 37,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "headers",
-            "value": "headers"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -1867,13 +1878,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "headers",
+            "value": "headers"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 80
+        },
+        "hiddenSeries": false,
+        "id": 39,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "inv",
-            "value": "inv"
+            "text": "headers",
+            "value": "headers"
           }
         },
         "seriesOverrides": [],
@@ -1944,122 +2067,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 80
-        },
-        "hiddenSeries": false,
-        "id": 38,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "inv",
-            "value": "inv"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -2093,13 +2105,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "inv",
+            "value": "inv"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 90
+        },
+        "hiddenSeries": false,
+        "id": 40,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "ping",
-            "value": "ping"
+            "text": "inv",
+            "value": "inv"
           }
         },
         "seriesOverrides": [],
@@ -2170,122 +2294,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 90
-        },
-        "hiddenSeries": false,
-        "id": 39,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "ping",
-            "value": "ping"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -2319,13 +2332,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "ping",
+            "value": "ping"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 100
+        },
+        "hiddenSeries": false,
+        "id": 41,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "pong",
-            "value": "pong"
+            "text": "ping",
+            "value": "ping"
           }
         },
         "seriesOverrides": [],
@@ -2396,122 +2521,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 100
-        },
-        "hiddenSeries": false,
-        "id": 40,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "pong",
-            "value": "pong"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -2545,13 +2559,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "pong",
+            "value": "pong"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 110
+        },
+        "hiddenSeries": false,
+        "id": 42,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "sendaddrv2",
-            "value": "sendaddrv2"
+            "text": "pong",
+            "value": "pong"
           }
         },
         "seriesOverrides": [],
@@ -2622,122 +2748,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 110
-        },
-        "hiddenSeries": false,
-        "id": 41,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "sendaddrv2",
-            "value": "sendaddrv2"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -2771,13 +2786,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "sendaddrv2",
+            "value": "sendaddrv2"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 120
+        },
+        "hiddenSeries": false,
+        "id": 43,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "sendcmpct",
-            "value": "sendcmpct"
+            "text": "sendaddrv2",
+            "value": "sendaddrv2"
           }
         },
         "seriesOverrides": [],
@@ -2848,122 +2975,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 120
-        },
-        "hiddenSeries": false,
-        "id": 42,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "sendcmpct",
-            "value": "sendcmpct"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -2997,13 +3013,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "sendcmpct",
+            "value": "sendcmpct"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 130
+        },
+        "hiddenSeries": false,
+        "id": 44,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "sendheaders",
-            "value": "sendheaders"
+            "text": "sendcmpct",
+            "value": "sendcmpct"
           }
         },
         "seriesOverrides": [],
@@ -3074,122 +3202,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 130
-        },
-        "hiddenSeries": false,
-        "id": 43,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "sendheaders",
-            "value": "sendheaders"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -3223,13 +3240,125 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "sendheaders",
+            "value": "sendheaders"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 140
+        },
+        "hiddenSeries": false,
+        "id": 45,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "verack",
-            "value": "verack"
+            "text": "sendheaders",
+            "value": "sendheaders"
           }
         },
         "seriesOverrides": [],
@@ -3300,122 +3429,11 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 140
-        },
-        "hiddenSeries": false,
-        "id": 44,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 14,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "verack",
-            "value": "verack"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "decbytes",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {},
           "overrides": []
         },
         "fill": 10,
@@ -3449,127 +3467,13 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
-        "repeatPanelId": 2,
-        "scopedVars": {
-          "msg_types": {
-            "selected": false,
-            "text": "version",
-            "value": "version"
-          }
-        },
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": true,
-        "targets": [
-          {
-            "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_count{msg_type=\"$msg_types\"}[1m]))",
-            "interval": "",
-            "legendFormat": "inbound",
-            "refId": "A"
-          },
-          {
-            "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_count{msg_type=\"$msg_types\"}[1m]))",
-            "hide": false,
-            "interval": "",
-            "legendFormat": "outbound",
-            "refId": "B"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message count",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fieldConfig": {
-          "defaults": {
-            "unit": "decbytes"
-          },
-          "overrides": []
-        },
-        "fill": 10,
-        "fillGradient": 0,
-        "gridPos": {
-          "h": 10,
-          "w": 12,
-          "x": 12,
-          "y": 150
-        },
-        "hiddenSeries": false,
-        "id": 45,
-        "legend": {
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "alertThreshold": true
-        },
-        "percentage": false,
-        "pluginVersion": "7.5.2",
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 14,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "version",
-            "value": "version"
+            "text": "verack",
+            "value": "verack"
           }
         },
         "seriesOverrides": [],
@@ -3579,14 +3483,14 @@
         "targets": [
           {
             "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
             "interval": "",
             "legendFormat": "inbound",
             "refId": "A"
           },
           {
             "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
             "hide": false,
             "interval": "",
             "legendFormat": "outbound",
@@ -3597,7 +3501,7 @@
         "timeFrom": null,
         "timeRegions": [],
         "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
         "tooltip": {
           "shared": true,
           "sort": 0,
@@ -3613,7 +3517,7 @@
         },
         "yaxes": [
           {
-            "format": "decbytes",
+            "format": "Bps",
             "label": null,
             "logBase": 1,
             "max": null,
@@ -3649,11 +3553,11 @@
         "gridPos": {
           "h": 10,
           "w": 12,
-          "x": 0,
-          "y": 160
+          "x": 12,
+          "y": 150
         },
         "hiddenSeries": false,
-        "id": 30,
+        "id": 46,
         "legend": {
           "avg": false,
           "current": false,
@@ -3675,13 +3579,13 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 2,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "wtxidrelay",
-            "value": "wtxidrelay"
+            "text": "verack",
+            "value": "verack"
           }
         },
         "seriesOverrides": [],
@@ -3752,9 +3656,10 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
+        "description": "",
         "fieldConfig": {
           "defaults": {
-            "unit": "decbytes"
+            "unit": "Bps"
           },
           "overrides": []
         },
@@ -3763,11 +3668,11 @@
         "gridPos": {
           "h": 10,
           "w": 12,
-          "x": 12,
+          "x": 0,
           "y": 160
         },
         "hiddenSeries": false,
-        "id": 46,
+        "id": 30,
         "legend": {
           "avg": false,
           "current": false,
@@ -3789,13 +3694,13 @@
         "points": false,
         "renderer": "flot",
         "repeatDirection": "v",
-        "repeatIteration": 1627335340988,
+        "repeatIteration": 1627375914260,
         "repeatPanelId": 14,
         "scopedVars": {
           "msg_types": {
             "selected": false,
-            "text": "wtxidrelay",
-            "value": "wtxidrelay"
+            "text": "version",
+            "value": "version"
           }
         },
         "seriesOverrides": [],
@@ -3805,14 +3710,14 @@
         "targets": [
           {
             "exemplar": true,
-            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
             "interval": "",
             "legendFormat": "inbound",
             "refId": "A"
           },
           {
             "exemplar": true,
-            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
             "hide": false,
             "interval": "",
             "legendFormat": "outbound",
@@ -3823,7 +3728,7 @@
         "timeFrom": null,
         "timeRegions": [],
         "timeShift": null,
-        "title": "$msg_types: in- and outbound per minute P2P message traffic in bytes",
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
         "tooltip": {
           "shared": true,
           "sort": 0,
@@ -3839,7 +3744,346 @@
         },
         "yaxes": [
           {
-            "format": "decbytes",
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 160
+        },
+        "hiddenSeries": false,
+        "id": 47,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 2,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "version",
+            "value": "version"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_count{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_count{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound per minute P2P message count",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "unit": "Bps"
+          },
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 170
+        },
+        "hiddenSeries": false,
+        "id": 31,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 14,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "wtxidrelay",
+            "value": "wtxidrelay"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(rate(bitcoindobserver_p2p_message_inbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(rate(bitcoindobserver_p2p_message_outbound_bytes{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound traffic in bytes/second",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "fill": 10,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 170
+        },
+        "hiddenSeries": false,
+        "id": 48,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.5.2",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeatDirection": "v",
+        "repeatIteration": 1627375914260,
+        "repeatPanelId": 2,
+        "scopedVars": {
+          "msg_types": {
+            "selected": false,
+            "text": "wtxidrelay",
+            "value": "wtxidrelay"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "exemplar": true,
+            "expr": "sum(delta(bitcoindobserver_p2p_message_inbound_count{msg_type=\"$msg_types\"}[1m]))",
+            "interval": "",
+            "legendFormat": "inbound",
+            "refId": "A"
+          },
+          {
+            "exemplar": true,
+            "expr": "-sum(delta(bitcoindobserver_p2p_message_outbound_count{msg_type=\"$msg_types\"}[1m]))",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "outbound",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "$msg_types: in- and outbound per minute P2P message count",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
             "label": null,
             "logBase": 1,
             "max": null,
@@ -3912,5 +4156,5 @@
     "timezone": "",
     "title": "P2P Network Traffic",
     "uid": "Z3_pFfZnz",
-    "version": 15
+    "version": 18
   }
