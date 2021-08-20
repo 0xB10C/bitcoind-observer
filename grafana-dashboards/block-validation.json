@@ -16,6 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 5,
+  "iteration": 1629452846178,
   "links": [],
   "panels": [
     {
@@ -66,7 +67,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "bitcoindobserver_validation_block_connected_height_last",
+          "expr": "bitcoindobserver_validation_block_connected_height_last{alias=\"$node\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -134,14 +135,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(bitcoindobserver_validation_block_connected_timing[1m]) / rate(bitcoindobserver_validation_block_connected_count[1m])",
+          "expr": "rate(bitcoindobserver_validation_block_connected_timing{alias=\"$node\"}[1m]) / rate(bitcoindobserver_validation_block_connected_count{alias=\"$node\"}[1m])",
           "interval": "",
           "legendFormat": "connection time",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "bitcoindobserver_validation_block_connected_height_last",
+          "expr": "bitcoindobserver_validation_block_connected_height_last{alias=\"$node\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "height",
@@ -152,7 +153,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Block connection time in µs",
+      "title": "Block connection time",
       "tooltip": {
         "shared": true,
         "sort": 2,
@@ -245,14 +246,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(bitcoindobserver_validation_block_connected_count[60s])",
+          "expr": "rate(bitcoindobserver_validation_block_connected_count{alias=\"$node\"}[60s])",
           "interval": "",
           "legendFormat": "connections/s",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "bitcoindobserver_validation_block_connected_height_last",
+          "expr": "bitcoindobserver_validation_block_connected_height_last{alias=\"$node\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "height",
@@ -357,14 +358,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(bitcoindobserver_validation_block_connected_transaction_count[60s])",
+          "expr": "rate(bitcoindobserver_validation_block_connected_transaction_count{alias=\"$node\"}[60s])",
           "interval": "",
           "legendFormat": "transactions/s",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "bitcoindobserver_validation_block_connected_height_last",
+          "expr": "bitcoindobserver_validation_block_connected_height_last{alias=\"$node\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "height",
@@ -469,14 +470,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(bitcoindobserver_validation_block_connected_input_count[60s])",
+          "expr": "rate(bitcoindobserver_validation_block_connected_input_count{alias=\"$node\"}[60s])",
           "interval": "",
           "legendFormat": "inputs/s",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "bitcoindobserver_validation_block_connected_height_last",
+          "expr": "bitcoindobserver_validation_block_connected_height_last{alias=\"$node\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "height",
@@ -581,14 +582,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "rate(bitcoindobserver_validation_block_connected_sigops_count[60s])",
+          "expr": "rate(bitcoindobserver_validation_block_connected_sigops_count{alias=\"$node\"}[60s])",
           "interval": "",
           "legendFormat": "sigops/s",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "bitcoindobserver_validation_block_connected_height_last",
+          "expr": "bitcoindobserver_validation_block_connected_height_last{alias=\"$node\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "height",
@@ -644,15 +645,63 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "master",
+          "value": "master"
+        },
+        "datasource": null,
+        "definition": "label_values(alias)",
+        "description": "Node",
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Node",
+        "multi": false,
+        "name": "node",
+        "options": [
+          {
+            "selected": false,
+            "text": "app1",
+            "value": "app1"
+          },
+          {
+            "selected": false,
+            "text": "erlay",
+            "value": "erlay"
+          },
+          {
+            "selected": true,
+            "text": "master",
+            "value": "master"
+          }
+        ],
+        "query": {
+          "query": "label_values(alias)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Block Validation",
+  "title": "Block validation during IDB",
   "uid": "V5pGXBW7k",
-  "version": 7
+  "version": 12
 }
