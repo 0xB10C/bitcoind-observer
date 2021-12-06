@@ -51,8 +51,7 @@ impl fmt::Display for P2PMessage {
 
 /// Represents a connected block.
 #[repr(C)]
-pub struct BlockConnected
-{
+pub struct BlockConnected {
     pub height: i32,
     pub transactions: u64,
     pub inputs: i32,
@@ -71,11 +70,23 @@ impl fmt::Display for BlockConnected {
         write!(
             f,
             "connected height={} tx={}, ins={}, sigops={} time={}µs",
-            self.height,
-            self.transactions,
-            self.inputs,
-            self.sigops,
-            self.connection_time,
+            self.height, self.transactions, self.inputs, self.sigops, self.connection_time,
         )
+    }
+}
+
+pub const UTXOCACHE_ADD: u8 = 0;
+pub const UTXOCACHE_SPENT: u8 = 1;
+pub const UTXOCACHE_UNCACHE: u8 = 2;
+
+/// Represents a utxocache event (utxocache:{add, spent, uncache} tracepoints).
+#[repr(C)]
+pub struct UTXOCacheEvent {
+    pub event: u8,
+}
+
+impl UTXOCacheEvent {
+    pub fn from_bytes(x: &[u8]) -> UTXOCacheEvent {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const UTXOCacheEvent) }
     }
 }

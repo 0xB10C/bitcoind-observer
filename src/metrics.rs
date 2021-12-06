@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
-use prometheus::{self, IntCounterVec, IntCounter, IntGauge};
-use prometheus::{register_int_counter_vec, register_int_counter, register_int_gauge, Opts};
+use prometheus::{self, IntCounter, IntCounterVec, IntGauge};
+use prometheus::{register_int_counter, register_int_counter_vec, register_int_gauge, Opts};
 
 // Prometheus Metrics
 
@@ -9,6 +9,7 @@ const NAMESPACE: &str = "bitcoindobserver";
 const SUBSYSTEM_RUNTIME: &str = "runtime";
 const SUBSYSTEM_P2P: &str = "p2p";
 const SUBSYSTEM_VALIDATION: &str = "validation";
+const SUBSYSTEM_UTXOCACHE: &str = "utxocache";
 
 pub const LABEL_P2P_MSG_TYPE: &str = "msg_type";
 pub const LABEL_P2P_CONNECTION_TYPE: &str = "connection_type";
@@ -112,5 +113,31 @@ lazy_static! {
         Opts::new("block_connected_timing", "Time block connection took in microseconds (µs).")
             .namespace(NAMESPACE)
             .subsystem(SUBSYSTEM_VALIDATION)
+    ).unwrap();
+
+    // -------------------- UTXO Cache
+
+    /// Additions to the UTXO set cache.
+    pub static ref UTXOCACHE_ADD: IntCounter =
+    register_int_counter!(
+        Opts::new("add", "Additions to the UTXO set cache.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE)
+    ).unwrap();
+
+    /// Spents from the UTXO set cache.
+    pub static ref UTXOCACHE_SPENT: IntCounter =
+    register_int_counter!(
+        Opts::new("spent", "Spents from the UTXO set cache.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE)
+    ).unwrap();
+
+    /// Uncaches from the UTXO set cache.
+    pub static ref UTXOCACHE_UNCACHE: IntCounter =
+    register_int_counter!(
+        Opts::new("uncache", "Uncaches from the UTXO set cache.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE)
     ).unwrap();
 }
