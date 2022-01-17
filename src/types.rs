@@ -90,3 +90,44 @@ impl UTXOCacheEvent {
         unsafe { ptr::read_unaligned(x.as_ptr() as *const UTXOCacheEvent) }
     }
 }
+
+pub const UTXOCACHE_FLUSHMODE_NONE: u32 = 0;
+pub const UTXOCACHE_FLUSHMODE_IFNEEDED: u32 = 1;
+pub const UTXOCACHE_FLUSHMODE_PERIODIC: u32 = 2;
+pub const UTXOCACHE_FLUSHMODE_ALWAYS: u32 = 3;
+
+/// Represents an UTXO cache flush.
+#[repr(C)]
+pub struct UTXOCacheFlush {
+    pub duration: u64,
+    pub mode: u32,
+    pub coins_count: u64,
+    pub coins_memusage: u64,
+    pub flush_for_prune: bool,
+}
+
+impl UTXOCacheFlush {
+    pub fn from_bytes(x: &[u8]) -> UTXOCacheFlush {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const UTXOCacheFlush) }
+    }
+
+    pub fn flush_mode(&self) -> &str {
+        match self.mode {
+            UTXOCACHE_FLUSHMODE_NONE => "NONE",
+            UTXOCACHE_FLUSHMODE_IFNEEDED => "IF_NEEDED",
+            UTXOCACHE_FLUSHMODE_PERIODIC => "PERIODIC",
+            UTXOCACHE_FLUSHMODE_ALWAYS => "ALWAYS",
+            _ => "UNKNOWN",
+        }
+    }
+
+    pub fn flush_for_prune(&self) -> &str {
+        if self.flush_for_prune {
+            "true"
+        } else {
+            "false"
+        }
+    }
+}
+
+
