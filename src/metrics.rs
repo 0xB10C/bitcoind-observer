@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
-use prometheus::{self, IntCounterVec, IntCounter, IntGauge};
-use prometheus::{register_int_counter_vec, register_int_counter, register_int_gauge, Opts};
+use prometheus::{self, IntCounter, IntCounterVec, IntGauge};
+use prometheus::{register_int_counter, register_int_counter_vec, register_int_gauge, Opts};
 
 // Prometheus Metrics
 
@@ -9,9 +9,13 @@ const NAMESPACE: &str = "bitcoindobserver";
 const SUBSYSTEM_RUNTIME: &str = "runtime";
 const SUBSYSTEM_P2P: &str = "p2p";
 const SUBSYSTEM_VALIDATION: &str = "validation";
+const SUBSYSTEM_UTXOCACHE: &str = "utxocache";
 
 pub const LABEL_P2P_MSG_TYPE: &str = "msg_type";
 pub const LABEL_P2P_CONNECTION_TYPE: &str = "connection_type";
+
+pub const LABEL_UTXOCACHE_FLUSH_MODE: &str = "flush_mode";
+pub const LABEL_UTXOCACHE_FLUSH_FORPRUNE: &str = "for_prune";
 
 lazy_static! {
 
@@ -112,5 +116,67 @@ lazy_static! {
         Opts::new("block_connected_timing", "Time block connection took in microseconds (µs).")
             .namespace(NAMESPACE)
             .subsystem(SUBSYSTEM_VALIDATION)
+    ).unwrap();
+
+    // -------------------- UTXO Cache
+
+    /// Additions to the UTXO set cache.
+    pub static ref UTXOCACHE_ADD: IntCounter =
+    register_int_counter!(
+        Opts::new("add", "Additions to the UTXO set cache.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE)
+    ).unwrap();
+
+    /// Spents from the UTXO set cache.
+    pub static ref UTXOCACHE_SPENT: IntCounter =
+    register_int_counter!(
+        Opts::new("spent", "Spents from the UTXO set cache.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE)
+    ).unwrap();
+
+    /// Uncaches from the UTXO set cache.
+    pub static ref UTXOCACHE_UNCACHE: IntCounter =
+    register_int_counter!(
+        Opts::new("uncache", "Uncaches from the UTXO set cache.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE)
+    ).unwrap();
+
+    /// UTXO set cache flush.
+    pub static ref UTXOCACHE_FLUSH: IntCounterVec =
+    register_int_counter_vec!(
+        Opts::new("flush", "UTXO set cache flush.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE),
+            &[LABEL_UTXOCACHE_FLUSH_MODE, LABEL_UTXOCACHE_FLUSH_FORPRUNE]
+    ).unwrap();
+
+    /// Total UTXO set cache flush duration.
+    pub static ref UTXOCACHE_FLUSH_DURATION: IntCounterVec =
+    register_int_counter_vec!(
+        Opts::new("flush_duration", "Total UTXO set cache flush duration.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE),
+            &[LABEL_UTXOCACHE_FLUSH_MODE, LABEL_UTXOCACHE_FLUSH_FORPRUNE]
+    ).unwrap();
+
+    /// Total UTXO set cache coins flushed.
+    pub static ref UTXOCACHE_FLUSH_COINS_COUNT: IntCounterVec =
+    register_int_counter_vec!(
+        Opts::new("flush_coins_count", "Total UTXO set cache coins flushed.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE),
+            &[LABEL_UTXOCACHE_FLUSH_MODE, LABEL_UTXOCACHE_FLUSH_FORPRUNE]
+    ).unwrap();
+
+    /// Total UTXO set cache memory flushed.
+    pub static ref UTXOCACHE_FLUSH_COINS_MEMUSAGE: IntCounterVec =
+    register_int_counter_vec!(
+        Opts::new("flush_coins_memusage", "Total UTXO set cache memory flushed.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_UTXOCACHE),
+            &[LABEL_UTXOCACHE_FLUSH_MODE, LABEL_UTXOCACHE_FLUSH_FORPRUNE]
     ).unwrap();
 }

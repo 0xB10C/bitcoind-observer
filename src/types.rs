@@ -51,8 +51,7 @@ impl fmt::Display for P2PMessage {
 
 /// Represents a connected block.
 #[repr(C)]
-pub struct BlockConnected
-{
+pub struct BlockConnected {
     pub height: i32,
     pub transactions: u64,
     pub inputs: i32,
@@ -71,11 +70,64 @@ impl fmt::Display for BlockConnected {
         write!(
             f,
             "connected height={} tx={}, ins={}, sigops={} time={}µs",
-            self.height,
-            self.transactions,
-            self.inputs,
-            self.sigops,
-            self.connection_time,
+            self.height, self.transactions, self.inputs, self.sigops, self.connection_time,
         )
     }
 }
+
+pub const UTXOCACHE_ADD: u8 = 0;
+pub const UTXOCACHE_SPENT: u8 = 1;
+pub const UTXOCACHE_UNCACHE: u8 = 2;
+
+/// Represents a utxocache event (utxocache:{add, spent, uncache} tracepoints).
+#[repr(C)]
+pub struct UTXOCacheEvent {
+    pub event: u8,
+}
+
+impl UTXOCacheEvent {
+    pub fn from_bytes(x: &[u8]) -> UTXOCacheEvent {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const UTXOCacheEvent) }
+    }
+}
+
+pub const UTXOCACHE_FLUSHMODE_NONE: u32 = 0;
+pub const UTXOCACHE_FLUSHMODE_IFNEEDED: u32 = 1;
+pub const UTXOCACHE_FLUSHMODE_PERIODIC: u32 = 2;
+pub const UTXOCACHE_FLUSHMODE_ALWAYS: u32 = 3;
+
+/// Represents an UTXO cache flush.
+#[repr(C)]
+pub struct UTXOCacheFlush {
+    pub duration: u64,
+    pub mode: u32,
+    pub coins_count: u64,
+    pub coins_memusage: u64,
+    pub flush_for_prune: bool,
+}
+
+impl UTXOCacheFlush {
+    pub fn from_bytes(x: &[u8]) -> UTXOCacheFlush {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const UTXOCacheFlush) }
+    }
+
+    pub fn flush_mode(&self) -> &str {
+        match self.mode {
+            UTXOCACHE_FLUSHMODE_NONE => "NONE",
+            UTXOCACHE_FLUSHMODE_IFNEEDED => "IF_NEEDED",
+            UTXOCACHE_FLUSHMODE_PERIODIC => "PERIODIC",
+            UTXOCACHE_FLUSHMODE_ALWAYS => "ALWAYS",
+            _ => "UNKNOWN",
+        }
+    }
+
+    pub fn flush_for_prune(&self) -> &str {
+        if self.flush_for_prune {
+            "true"
+        } else {
+            "false"
+        }
+    }
+}
+
+
