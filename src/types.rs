@@ -130,4 +130,43 @@ impl UTXOCacheFlush {
     }
 }
 
+pub const MAX_LOCK_NAME: usize = 16;
+pub const MAX_FILE_NAME: usize = 32;
 
+/// Represents a sync (lock) event.
+#[repr(C)]
+pub struct SyncEvent {
+    pub mutex: u64,
+    pub lock_name: [u8; MAX_LOCK_NAME],
+    pub file_name: [u8; MAX_FILE_NAME],
+    pub line_number: u64,
+}
+
+impl SyncEvent {
+    pub fn from_bytes(x: &[u8]) -> SyncEvent {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const SyncEvent) }
+    }
+
+    pub fn lock_name(&self) -> String {
+        String::from_utf8_lossy(&self.lock_name.split(|c| *c == 0x00u8).next().unwrap())
+            .into_owned()
+    }
+
+    pub fn file_name(&self) -> String {
+        String::from_utf8_lossy(&self.file_name.split(|c| *c == 0x00u8).next().unwrap())
+            .into_owned()
+    }
+}
+
+impl fmt::Display for SyncEvent {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "SyncEvent(mutex={}, {} in {}:{})",
+            self.mutex,
+            self.lock_name(),
+            self.file_name(),
+            self.line_number,
+        )
+    }
+}

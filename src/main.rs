@@ -8,7 +8,7 @@ mod metrics;
 mod metricserver;
 mod types;
 
-use types::{BlockConnected, P2PMessage, UTXOCacheEvent, UTXOCacheFlush};
+use types::{BlockConnected, P2PMessage, UTXOCacheEvent, UTXOCacheFlush, SyncEvent};
 
 use simple_logger::SimpleLogger;
 
@@ -59,6 +59,18 @@ fn main() {
     usdt_ctx
         .enable_probe("utxocache:flush", "trace_utxocache_flush")
         .unwrap();
+    usdt_ctx
+        .enable_probe("sync:enter", "trace_sync_enter")
+        .unwrap();
+    usdt_ctx
+        .enable_probe("sync:locked", "trace_sync_locked")
+        .unwrap();
+    usdt_ctx
+        .enable_probe("sync:try_locked", "trace_sync_try_locked")
+        .unwrap();
+    usdt_ctx
+        .enable_probe("sync:unlock", "trace_sync_unlocked")
+        .unwrap();
 
     let code = concat!(
         "#include <uapi/linux/ptrace.h>",
@@ -67,6 +79,7 @@ fn main() {
         include_str!("../ebpf-programs/validation_block_connected.c"),
         include_str!("../ebpf-programs/utxo_set_cache_changes.c"),
         include_str!("../ebpf-programs/utxo_set_cache_flushes.c"),
+        include_str!("../ebpf-programs/sync_locks.c"),
     );
     let bpf = BPFBuilder::new(code)
         .unwrap()
@@ -80,6 +93,10 @@ fn main() {
     let table_block_connected = bpf.table("perf_block_connected").unwrap();
     let table_utxocache_events = bpf.table("perf_utxocache_events").unwrap();
     let table_utxocache_flushes = bpf.table("perf_utxocache_flushes").unwrap();
+    let table_sync_enter_events = bpf.table("sync_enter").unwrap();
+    let table_sync_locked_events = bpf.table("sync_locked").unwrap();
+    let table_sync_try_locked_events = bpf.table("sync_try_locked").unwrap();
+    let table_sync_unlocked_events = bpf.table("sync_unlocked").unwrap();
 
     let mut perf_map_inbound_msg =
         PerfMapBuilder::new(table_inbound_messages, callback_inbound_message)
@@ -102,6 +119,23 @@ fn main() {
             .build()
             .unwrap();
 
+    let mut perf_map_sync_enter_events =
+        PerfMapBuilder::new(table_sync_enter_events, callback_sync_enter)
+            .build()
+            .unwrap();
+    let mut perf_map_sync_locked_events =
+        PerfMapBuilder::new(table_sync_locked_events, callback_sync_locked)
+            .build()
+            .unwrap();
+    let mut perf_map_sync_try_locked_events =
+        PerfMapBuilder::new(table_sync_try_locked_events, callback_sync_try_locked)
+            .build()
+            .unwrap();
+    let mut perf_map_sync_unlocked_events =
+        PerfMapBuilder::new(table_sync_unlocked_events, callback_sync_unlocked)
+            .build()
+            .unwrap();
+
     metricserver::start(&metricserver_address).unwrap();
 
     log::info!(target: LOG_TARGET, "Started bitcoind-observer.");
@@ -112,7 +146,39 @@ fn main() {
         perf_map_block_connected.poll(1);
         perf_map_utxocache_events.poll(1);
         perf_map_utxocache_flushes.poll(1);
+        perf_map_sync_enter_events.poll(1);
+        perf_map_sync_locked_events.poll(1);
+        perf_map_sync_try_locked_events.poll(1);
+        perf_map_sync_unlocked_events.poll(1);
     }
+}
+
+fn callback_sync_enter() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|x| {
+        let event = SyncEvent::from_bytes(x);
+        println!("SyncEnter: {}", event);
+    })
+}
+
+fn callback_sync_unlocked() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|x| {
+        let event = SyncEvent::from_bytes(x);
+        println!("SyncUnlocked: {}", event);
+    })
+}
+
+fn callback_sync_locked() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|x| {
+        let event = SyncEvent::from_bytes(x);
+        println!("SyncLocked: {}", event);
+    })
+}
+
+fn callback_sync_try_locked() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|x| {
+        let event = SyncEvent::from_bytes(x);
+        println!("SyncTryLocked: {}", event);
+    })
 }
 
 fn callback_inbound_message() -> Box<dyn FnMut(&[u8]) + Send> {
