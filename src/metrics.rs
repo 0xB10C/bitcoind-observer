@@ -238,7 +238,7 @@ lazy_static! {
     /// Transactions rejected from entering the mempool
     pub static ref MEMPOOL_REJECTED: IntCounterVec =
     register_int_counter_vec!(
-        Opts::new("removed", "Transactions rejected from entering the mempool.")
+        Opts::new("rejected", "Transactions rejected from entering the mempool.")
             .namespace(NAMESPACE)
             .subsystem(SUBSYSTEM_MEMPOOL),
             &[LABEL_MEMPOOL_REASON]
