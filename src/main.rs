@@ -178,10 +178,19 @@ fn callback_utxocache_flush() -> Box<dyn FnMut(&[u8]) + Send> {
         let flush = UTXOCacheFlush::from_bytes(x);
         let mut labels = HashMap::<&str, &str>::new();
         labels.insert(metrics::LABEL_UTXOCACHE_FLUSH_MODE, flush.flush_mode());
-        labels.insert(metrics::LABEL_UTXOCACHE_FLUSH_FORPRUNE, flush.flush_for_prune());
+        labels.insert(
+            metrics::LABEL_UTXOCACHE_FLUSH_FORPRUNE,
+            flush.flush_for_prune(),
+        );
         metrics::UTXOCACHE_FLUSH.with(&labels).inc();
-        metrics::UTXOCACHE_FLUSH_DURATION.with(&labels).inc_by(flush.duration);
-        metrics::UTXOCACHE_FLUSH_COINS_COUNT.with(&labels).inc_by(flush.coins_count);
-        metrics::UTXOCACHE_FLUSH_COINS_MEMUSAGE.with(&labels).inc_by(flush.coins_memusage);
+        metrics::UTXOCACHE_FLUSH_DURATION
+            .with(&labels)
+            .inc_by(flush.duration);
+        metrics::UTXOCACHE_FLUSH_COINS_COUNT
+            .with(&labels)
+            .inc_by(flush.coins_count);
+        metrics::UTXOCACHE_FLUSH_COINS_MEMUSAGE
+            .with(&labels)
+            .inc_by(flush.coins_memusage);
     })
 }
