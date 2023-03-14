@@ -59,6 +59,7 @@ fn main() {
     usdt_ctx
         .enable_probe("utxocache:flush", "trace_utxocache_flush")
         .unwrap();
+    /*
     usdt_ctx
         .enable_probe("sync:enter", "trace_sync_enter")
         .unwrap();
@@ -68,18 +69,18 @@ fn main() {
     usdt_ctx
         .enable_probe("sync:try_locked", "trace_sync_try_locked")
         .unwrap();
+*/
     usdt_ctx
         .enable_probe("sync:unlock", "trace_sync_unlocked")
         .unwrap();
-
     let code = concat!(
         "#include <uapi/linux/ptrace.h>",
         "\n\n",
         include_str!("../ebpf-programs/p2p_in_and_outbound.c"),
         include_str!("../ebpf-programs/validation_block_connected.c"),
         include_str!("../ebpf-programs/utxo_set_cache_changes.c"),
-        include_str!("../ebpf-programs/utxo_set_cache_flushes.c"),
         include_str!("../ebpf-programs/sync_locks.c"),
+        include_str!("../ebpf-programs/utxo_set_cache_flushes.c"),
     );
     let bpf = BPFBuilder::new(code)
         .unwrap()
