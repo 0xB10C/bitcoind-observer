@@ -10,12 +10,14 @@ const SUBSYSTEM_RUNTIME: &str = "runtime";
 const SUBSYSTEM_P2P: &str = "p2p";
 const SUBSYSTEM_VALIDATION: &str = "validation";
 const SUBSYSTEM_UTXOCACHE: &str = "utxocache";
+const SUBSYSTEM_MEMPOOL: &str = "mempool";
 
 pub const LABEL_P2P_MSG_TYPE: &str = "msg_type";
 pub const LABEL_P2P_CONNECTION_TYPE: &str = "connection_type";
 
 pub const LABEL_UTXOCACHE_FLUSH_MODE: &str = "flush_mode";
 pub const LABEL_UTXOCACHE_FLUSH_FORPRUNE: &str = "for_prune";
+pub const LABEL_MEMPOOL_REASON: &str = "reason";
 
 lazy_static! {
 
@@ -179,4 +181,75 @@ lazy_static! {
             .subsystem(SUBSYSTEM_UTXOCACHE),
             &[LABEL_UTXOCACHE_FLUSH_MODE, LABEL_UTXOCACHE_FLUSH_FORPRUNE]
     ).unwrap();
+
+    // -------------------- Mempool
+
+    /// Transactions added to the mempool
+    pub static ref MEMPOOL_ADDED: IntCounter =
+    register_int_counter!(
+        Opts::new("added", "Transactions added to the mempool.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_MEMPOOL)
+    ).unwrap();
+
+    /// Fees added to the mempool
+    pub static ref MEMPOOL_FEE_ADDED: IntCounter =
+    register_int_counter!(
+        Opts::new("fees_added", "Fees added to the mempool.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_MEMPOOL)
+    ).unwrap();
+
+    /// Vsize added to the mempool
+    pub static ref MEMPOOL_VSIZE_ADDED: IntCounter =
+    register_int_counter!(
+        Opts::new("vsize_added", "VSize added to the mempool.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_MEMPOOL)
+    ).unwrap();
+
+    /// Transactions removed from the mempool
+    pub static ref MEMPOOL_REMOVED: IntCounterVec =
+    register_int_counter_vec!(
+        Opts::new("removed", "Transactions removed from the mempool.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_MEMPOOL),
+            &[LABEL_MEMPOOL_REASON]
+    ).unwrap();
+
+    /// Fees removed from the mempool
+    pub static ref MEMPOOL_FEE_REMOVED: IntCounterVec =
+    register_int_counter_vec!(
+        Opts::new("fees_removed", "Fees removed from the mempool.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_MEMPOOL),
+            &[LABEL_MEMPOOL_REASON]
+    ).unwrap();
+
+    /// Vsize removed from the mempool
+    pub static ref MEMPOOL_VSIZE_REMOVED: IntCounterVec =
+    register_int_counter_vec!(
+        Opts::new("vsize_removed", "VSize removed from the mempool.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_MEMPOOL),
+            &[LABEL_MEMPOOL_REASON]
+    ).unwrap();
+
+    /// Transactions rejected from entering the mempool
+    pub static ref MEMPOOL_REJECTED: IntCounterVec =
+    register_int_counter_vec!(
+        Opts::new("rejected", "Transactions rejected from entering the mempool.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_MEMPOOL),
+            &[LABEL_MEMPOOL_REASON]
+    ).unwrap();
+
+    /// Transactions replaced in the mempool
+    pub static ref MEMPOOL_REPLACED: IntCounter =
+    register_int_counter!(
+        Opts::new("replaced", "Transactions replaced in the mempool.")
+            .namespace(NAMESPACE)
+            .subsystem(SUBSYSTEM_MEMPOOL)
+    ).unwrap();
+
 }
