@@ -1,3 +1,5 @@
+Archived - https://github.com/0xb10c/peer-observer does something similar
+
 # bitcoind-observer
 
 An experimental Prometheus metric exporter for Bitcoin Core based on _Userspace,
