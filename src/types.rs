@@ -130,4 +130,53 @@ impl UTXOCacheFlush {
     }
 }
 
+/// Represents an added mempool transaction.
+#[repr(C)]
+pub struct MempoolAdded {
+    pub vsize: u64,
+    pub fee: i64,
+}
 
+impl MempoolAdded {
+    pub fn from_bytes(x: &[u8]) -> MempoolAdded {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const MempoolAdded) }
+    }
+}
+
+const MAX_REMOVAL_REASON_LENGTH: usize = 9;
+
+/// Represents a removed mempool transaction.
+#[repr(C)]
+pub struct MempoolRemoved {
+    pub reason: [u8; MAX_REMOVAL_REASON_LENGTH],
+    pub vsize: u64,
+    pub fee: i64,
+}
+
+impl MempoolRemoved {
+    pub fn from_bytes(x: &[u8]) -> MempoolRemoved {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const MempoolRemoved) }
+    }
+
+    pub fn removal_reason(&self) -> String {
+        String::from_utf8_lossy(&self.reason.split(|c| *c == 0x00u8).next().unwrap()).into_owned()
+    }
+}
+
+const MAX_REJECT_REASON_LENGTH: usize = 118;
+
+/// Represents a rejected mempool transaction.
+#[repr(C)]
+pub struct MempoolRejected {
+    pub reason: [u8; MAX_REJECT_REASON_LENGTH],
+}
+
+impl MempoolRejected {
+    pub fn from_bytes(x: &[u8]) -> MempoolRejected {
+        unsafe { ptr::read_unaligned(x.as_ptr() as *const MempoolRejected) }
+    }
+
+    pub fn reject_reason(&self) -> String {
+        String::from_utf8_lossy(&self.reason.split(|c| *c == 0x00u8).next().unwrap()).into_owned()
+    }
+}

@@ -8,7 +8,10 @@ mod metrics;
 mod metricserver;
 mod types;
 
-use types::{BlockConnected, P2PMessage, UTXOCacheEvent, UTXOCacheFlush};
+use types::{
+    BlockConnected, MempoolAdded, MempoolRejected, MempoolRemoved, P2PMessage, UTXOCacheEvent,
+    UTXOCacheFlush,
+};
 
 use simple_logger::SimpleLogger;
 
@@ -59,6 +62,18 @@ fn main() {
     usdt_ctx
         .enable_probe("utxocache:flush", "trace_utxocache_flush")
         .unwrap();
+    usdt_ctx
+        .enable_probe("mempool:added", "trace_mempool_added")
+        .unwrap();
+    usdt_ctx
+        .enable_probe("mempool:removed", "trace_mempool_removed")
+        .unwrap();
+    usdt_ctx
+        .enable_probe("mempool:replaced", "trace_mempool_replaced")
+        .unwrap();
+    usdt_ctx
+        .enable_probe("mempool:rejected", "trace_mempool_rejected")
+        .unwrap();
 
     let code = concat!(
         "#include <uapi/linux/ptrace.h>",
@@ -67,6 +82,7 @@ fn main() {
         include_str!("../ebpf-programs/validation_block_connected.c"),
         include_str!("../ebpf-programs/utxo_set_cache_changes.c"),
         include_str!("../ebpf-programs/utxo_set_cache_flushes.c"),
+        include_str!("../ebpf-programs/mempool_changes.c"),
     );
     let bpf = BPFBuilder::new(code)
         .unwrap()
@@ -80,6 +96,10 @@ fn main() {
     let table_block_connected = bpf.table("perf_block_connected").unwrap();
     let table_utxocache_events = bpf.table("perf_utxocache_events").unwrap();
     let table_utxocache_flushes = bpf.table("perf_utxocache_flushes").unwrap();
+    let table_mempool_added = bpf.table("mempool_added_events").unwrap();
+    let table_mempool_removed = bpf.table("mempool_removed_events").unwrap();
+    let table_mempool_rejected = bpf.table("mempool_rejected_events").unwrap();
+    let table_mempool_replaced = bpf.table("mempool_replaced_events").unwrap();
 
     let mut perf_map_inbound_msg =
         PerfMapBuilder::new(table_inbound_messages, callback_inbound_message)
@@ -101,6 +121,22 @@ fn main() {
         PerfMapBuilder::new(table_utxocache_flushes, callback_utxocache_flush)
             .build()
             .unwrap();
+    let mut perf_map_mempool_added =
+        PerfMapBuilder::new(table_mempool_added, callback_mempool_added)
+            .build()
+            .unwrap();
+    let mut perf_map_mempool_removed =
+        PerfMapBuilder::new(table_mempool_removed, callback_mempool_removed)
+            .build()
+            .unwrap();
+    let mut perf_map_mempool_rejected =
+        PerfMapBuilder::new(table_mempool_rejected, callback_mempool_rejected)
+            .build()
+            .unwrap();
+    let mut perf_map_mempool_replaced =
+        PerfMapBuilder::new(table_mempool_replaced, callback_mempool_replaced)
+            .build()
+            .unwrap();
 
     metricserver::start(&metricserver_address).unwrap();
 
@@ -112,6 +148,10 @@ fn main() {
         perf_map_block_connected.poll(1);
         perf_map_utxocache_events.poll(1);
         perf_map_utxocache_flushes.poll(1);
+        perf_map_mempool_added.poll(1);
+        perf_map_mempool_removed.poll(1);
+        perf_map_mempool_rejected.poll(1);
+        perf_map_mempool_replaced.poll(1);
     }
 }
 
@@ -178,10 +218,58 @@ fn callback_utxocache_flush() -> Box<dyn FnMut(&[u8]) + Send> {
         let flush = UTXOCacheFlush::from_bytes(x);
         let mut labels = HashMap::<&str, &str>::new();
         labels.insert(metrics::LABEL_UTXOCACHE_FLUSH_MODE, flush.flush_mode());
-        labels.insert(metrics::LABEL_UTXOCACHE_FLUSH_FORPRUNE, flush.flush_for_prune());
+        labels.insert(
+            metrics::LABEL_UTXOCACHE_FLUSH_FORPRUNE,
+            flush.flush_for_prune(),
+        );
         metrics::UTXOCACHE_FLUSH.with(&labels).inc();
-        metrics::UTXOCACHE_FLUSH_DURATION.with(&labels).inc_by(flush.duration);
-        metrics::UTXOCACHE_FLUSH_COINS_COUNT.with(&labels).inc_by(flush.coins_count);
-        metrics::UTXOCACHE_FLUSH_COINS_MEMUSAGE.with(&labels).inc_by(flush.coins_memusage);
+        metrics::UTXOCACHE_FLUSH_DURATION
+            .with(&labels)
+            .inc_by(flush.duration);
+        metrics::UTXOCACHE_FLUSH_COINS_COUNT
+            .with(&labels)
+            .inc_by(flush.coins_count);
+        metrics::UTXOCACHE_FLUSH_COINS_MEMUSAGE
+            .with(&labels)
+            .inc_by(flush.coins_memusage);
+    })
+}
+
+fn callback_mempool_added() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|x| {
+        let ma = MempoolAdded::from_bytes(x);
+        metrics::MEMPOOL_ADDED.inc();
+        metrics::MEMPOOL_FEE_ADDED.inc_by(ma.fee as u64);
+        metrics::MEMPOOL_VSIZE_ADDED.inc_by(ma.vsize);
+    })
+}
+
+fn callback_mempool_removed() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|x| {
+        let mr = MempoolRemoved::from_bytes(x);
+        metrics::MEMPOOL_REMOVED
+            .with_label_values(&[&mr.removal_reason()])
+            .inc();
+        metrics::MEMPOOL_FEE_REMOVED
+            .with_label_values(&[&mr.removal_reason()])
+            .inc_by(mr.fee as u64);
+        metrics::MEMPOOL_VSIZE_REMOVED
+            .with_label_values(&[&mr.removal_reason()])
+            .inc_by(mr.vsize);
+    })
+}
+
+fn callback_mempool_rejected() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|x| {
+        let mr = MempoolRejected::from_bytes(x);
+        metrics::MEMPOOL_REJECTED
+            .with_label_values(&[&mr.reject_reason()])
+            .inc();
+    })
+}
+
+fn callback_mempool_replaced() -> Box<dyn FnMut(&[u8]) + Send> {
+    Box::new(|_| {
+        metrics::MEMPOOL_REPLACED.inc();
     })
 }
